@@ -21,22 +21,39 @@ import com.example.solarexplorer.ui.QuizScreen
 import com.example.solarexplorer.ui.ResultScreen
 import com.example.solarexplorer.ui.TourScreen
 import com.example.solarexplorer.viewmodel.PlanetViewModel
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 
 // 🔥 ADDED
 import com.example.solarexplorer.viewmodel.QuizViewModel
 import com.example.solarexplorer.viewmodel.QuizViewModelFactory
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        // Create DataStore + ViewModel Factory
+        super.onCreate(savedInstanceState)     // ✅ must be first
+
+        // --- SPLASH SCREEN ---
+        val splashScreen = installSplashScreen()
+
+        var keepSplashOn = true
+
+        splashScreen.setKeepOnScreenCondition { keepSplashOn }
+
+        lifecycleScope.launch {
+            delay(600) // simulate initialization load
+            keepSplashOn = false
+        }
+
+        // --- CREATE DATASTORE + FACTORIES ---
         val dataStoreManager = DataStoreManager(applicationContext)
-        val factoryInstance = PlanetViewModelFactory(dataStoreManager)
-
-        // 🔥 ADDED — Create QuizViewModel Factory
+        val planetFactory = PlanetViewModelFactory(dataStoreManager)
         val quizFactory = QuizViewModelFactory(applicationContext)
 
+        // --- SET CONTENT: only ONCE ---
         setContent {
 
             val navController = rememberNavController()
@@ -48,12 +65,10 @@ class MainActivity : ComponentActivity() {
 
                 // ---------------- HOME SCREEN ----------------
                 composable("home") {
-                    val vm: PlanetViewModel = viewModel(factory = factoryInstance)
-
-                    // 🔥 ADDED — Create QuizViewModel
+                    val planetVM: PlanetViewModel = viewModel(factory = planetFactory)
                     val quizVM: QuizViewModel = viewModel(factory = quizFactory)
 
-                    val planets by vm.planets.collectAsState()
+                    val planets by planetVM.planets.collectAsState()
 
                     HomeScreen(
                         planets = planets,
@@ -65,19 +80,15 @@ class MainActivity : ComponentActivity() {
 
                 // ---------------- PLANET DETAIL SCREEN ----------------
                 composable(
-                    route = "detail/{planetName}",
-                    arguments = listOf(
-                        navArgument("planetName") { type = NavType.StringType }
-                    )
+                    "detail/{planetName}",
+                    arguments = listOf(navArgument("planetName") { type = NavType.StringType })
                 ) { backStackEntry ->
 
-                    val vm: PlanetViewModel = viewModel(factory = factoryInstance)
-
-                    // 🔥 ADDED
+                    val planetVM: PlanetViewModel = viewModel(factory = planetFactory)
                     val quizVM: QuizViewModel = viewModel(factory = quizFactory)
 
                     val planetName = backStackEntry.arguments?.getString("planetName") ?: ""
-                    val planets by vm.planets.collectAsState()
+                    val planets by planetVM.planets.collectAsState()
                     val planet = planets.find { it.name == planetName }
 
                     PlanetDetailScreen(
@@ -86,34 +97,30 @@ class MainActivity : ComponentActivity() {
                         onQuizClick = { name ->
                             navController.navigate("quiz/${Uri.encode(name)}")
                         },
-                        vm = quizVM   // 🔥 ADDED
+                        vm = quizVM
                     )
                 }
 
                 // ---------------- QUIZ SCREEN ----------------
                 composable(
-                    route = "quiz/{planetName}",
-                    arguments = listOf(
-                        navArgument("planetName") { type = NavType.StringType }
-                    )
-                ) { backStackEntry ->
+                    "quiz/{planetName}",
+                    arguments = listOf(navArgument("planetName") { type = NavType.StringType })
+                ) { backEntry ->
 
-                    val vm: PlanetViewModel = viewModel(factory = factoryInstance)
-
-                    // 🔥 ADDED — Use QuizViewModel here
+                    val planetVM: PlanetViewModel = viewModel(factory = planetFactory)
                     val quizVM: QuizViewModel = viewModel(factory = quizFactory)
 
-                    val planetName = backStackEntry.arguments?.getString("planetName") ?: ""
-                    val planets by vm.planets.collectAsState()
+                    val planetName = backEntry.arguments?.getString("planetName") ?: ""
+                    val planets by planetVM.planets.collectAsState()
                     val planet = planets.find { it.name == planetName }
 
                     if (planet != null) {
-                        val questions = vm.getQuizForPlanet(planet)
+                        val questions = planetVM.getQuizForPlanet(planet)
 
                         QuizScreen(
                             questions = questions,
                             onFinish = { score, max ->
-                                quizVM.updateHighScore(planetName, score)  // 🔥 UPDATED
+                                quizVM.updateHighScore(planetName, score)
                                 navController.navigate("result/$score/$max")
                             },
                             onBack = { navController.popBackStack() }
@@ -123,30 +130,28 @@ class MainActivity : ComponentActivity() {
 
                 // ---------------- RESULT SCREEN ----------------
                 composable(
-                    route = "result/{score}/{max}",
+                    "result/{score}/{max}",
                     arguments = listOf(
                         navArgument("score") { type = NavType.IntType },
                         navArgument("max") { type = NavType.IntType }
                     )
-                ) { backStackEntry ->
+                ) { backEntry ->
 
-                    val score = backStackEntry.arguments?.getInt("score") ?: 0
-                    val max = backStackEntry.arguments?.getInt("max") ?: 0
+                    val score = backEntry.arguments?.getInt("score") ?: 0
+                    val max = backEntry.arguments?.getInt("max") ?: 0
 
                     ResultScreen(
                         score = score,
                         total = max,
                         onRetry = { navController.popBackStack() },
-                        onBackHome = {
-                            navController.popBackStack("home", inclusive = false)
-                        }
+                        onBackHome = { navController.popBackStack("home", inclusive = false) }
                     )
                 }
 
                 // ---------------- TOUR SCREEN ----------------
                 composable("tour") {
-                    val vm: PlanetViewModel = viewModel(factory = factoryInstance)
-                    val planets by vm.planets.collectAsState()
+                    val planetVM: PlanetViewModel = viewModel(factory = planetFactory)
+                    val planets by planetVM.planets.collectAsState()
 
                     TourScreen(
                         planets = planets,

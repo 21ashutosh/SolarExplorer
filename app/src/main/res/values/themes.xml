@@ -6,4 +6,22 @@
     </style>
 
     <style name="Theme.SolarExplorer" parent="Base.Theme.SolarExplorer" />
+
+
+    <!-- existing app theme(s) here (Theme.SolarExplorer or similar) -->
+
+    <!-- Splash Theme for Android 12+ and compatibility -->
+    <style name="Theme.SolarExplorer.Splash" parent="Theme.SplashScreen">
+        <!-- background color while system shows splash -->
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+
+        <!-- animated icon shown on the splash (adaptive launcher icon recommended) -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        <!-- animation duration in ms (system plays this). Optional. -->
+        <item name="windowSplashScreenAnimationDuration">300</item>
+
+        <!-- After the splash ends, the system will apply this theme to your activity -->
+        <item name="postSplashScreenTheme">@style/Theme.SolarExplorer</item>
+    </style>
 </resources>
