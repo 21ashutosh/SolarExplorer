@@ -39,9 +39,6 @@ A modern Android app built with **Jetpack Compose**, designed to teach users abo
 
 ## 📱 Screenshots
 
-> Create a folder `screens/` in your repo and put these files:
-> `home.png`, `detail.png`, `quiz.png`, `tour.png`, and optionally `tour_demo.gif`
-
 ### 🏠 Home Screen
 ![Home](screens/home.png)
 
@@ -54,8 +51,6 @@ A modern Android app built with **Jetpack Compose**, designed to teach users abo
 ### 🎧 TTS Tour Screen
 ![Tour](screens/tour.png)
 
-### 🎥 Solar Tour Demo (GIF)
-![Tour Demo](screens/tour_demo.gif)
 
 ---
 
@@ -74,4 +69,16 @@ A modern Android app built with **Jetpack Compose**, designed to teach users abo
 ---
 
 ## 📦 Project Structure
-
+app/
+├── data/
+│ ├── datastore/
+│ └── model/
+├── ui/
+│ ├── home/
+│ ├── detail/
+│ ├── quiz/
+│ ├── tour/
+│ └── components/
+├── utils/
+├── MainActivity.kt
+└── ...
