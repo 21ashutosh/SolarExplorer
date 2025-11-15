@@ -1,105 +1,57 @@
 package com.example.solarexplorer.ui
 
+import android.content.res.Configuration
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Quiz
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import com.example.solarexplorer.data.model.Planet
-import com.example.solarexplorer.ui.components.YouTubePlayer
-import java.util.Locale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
+import com.example.solarexplorer.data.model.Planet
 import com.example.solarexplorer.viewmodel.QuizViewModel
+import com.example.solarexplorer.ui.theme.SolarExplorerTheme
+import com.example.solarexplorer.ui.theme.SpaceGradientBackground
+import java.util.Locale
 
 // -------------------------
-// Reusable Beautiful Planet Button
+// Planet Detail Screen
 // -------------------------
-@Composable
-fun PlanetButton(
-    text: String,
-    icon: ImageVector,
-    color: Color,
-    onClick: () -> Unit
-) {
-    var pressed by remember { mutableStateOf(false) }
-
-    val scale by animateFloatAsState(
-        targetValue = if (pressed) 0.94f else 1f,
-        animationSpec = spring()
-    )
-
-    Button(
-        onClick = {
-            pressed = true
-            onClick()
-            pressed = false
-        },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = color.copy(alpha = 0.85f),
-            contentColor = Color.White
-        ),
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(55.dp)
-            .graphicsLayer(scaleX = scale, scaleY = scale),
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 6.dp,
-            pressedElevation = 2.dp
-        )
-    ) {
-        Icon(icon, contentDescription = null)
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(text, fontSize = 18.sp)
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlanetDetailScreen(
     planet: Planet?,
     onBack: () -> Unit,
     onQuizClick: (String) -> Unit,
-    vm: QuizViewModel   // ← you must have this ViewModel in your project
+    vm: QuizViewModel
 ) {
     val context = LocalContext.current
     var tts by remember { mutableStateOf<TextToSpeech?>(null) }
 
-    // --- Text To Speech Initialization ---
+    // ---------------- TEXT TO SPEECH ----------------
     DisposableEffect(context) {
         tts = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                val localeResult = tts?.setLanguage(Locale("en", "IN"))
-                if (localeResult == TextToSpeech.LANG_MISSING_DATA ||
-                    localeResult == TextToSpeech.LANG_NOT_SUPPORTED
-                ) {
-                    Log.e("TTS", "Indian English not supported. Using US English.")
+                val result = tts?.setLanguage(Locale("en", "IN"))
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "Indian English not supported, using US English")
                     tts?.setLanguage(Locale.US)
-                } else {
-                    Log.i("TTS", "Indian English set successfully.")
                 }
-                tts?.setSpeechRate(1.0f)
-                tts?.setPitch(1.0f)
+                tts?.setSpeechRate(1f)
+                tts?.setPitch(1f)
             } else {
-                Log.e("TTS", "TTS initialization failed.")
+                Log.e("TTS", "TTS initialization failed")
             }
         }
 
@@ -109,129 +61,187 @@ fun PlanetDetailScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(planet?.name ?: "Planet") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
+    // ---------------- HANDLE NULL PLANET ----------------
+    if (planet == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("Planet not found", color = Color.White)
         }
-    ) { padding ->
+        return
+    }
 
-        if (planet == null) {
-            Box(
+    // ---------------- GRADIENT COLORS ----------------
+    val colors = planet.backgroundColors.map { Color(it.toULong().toLong()) } // ensure Long -> Color
+    val top = colors.getOrNull(0) ?: Color(0xFF0A0F1A)
+    val bottom = colors.getOrNull(1) ?: Color(0xFF0F1724)
+
+    SolarExplorerTheme {
+        SpaceGradientBackground(topColor = top, bottomColor = bottom) {
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("Planet not found")
-            }
-            return@Scaffold
-        }
-
-        // Background Gradient
-        val colors = planet.backgroundColors.map { Color(it) }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(brush = Brush.verticalGradient(colors))
-                .padding(padding)
-                .padding(16.dp)
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
             ) {
 
-                // --- YouTube Player Section ---
-                if (planet.youtubeVideoId != null) {
-                    Text(
-                        text = "Watch and Learn:",
-                        style = MaterialTheme.typography.headlineSmall
-                    )
+                // ---------------- BACK BUTTON ----------------
+                TextButton(onClick = onBack) {
+                    Text("← Back", color = MaterialTheme.colorScheme.secondary)
+                }
 
-                    YouTubePlayer(
-                        videoId = planet.youtubeVideoId,
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // ---------------- PLANET IMAGE ----------------
+                planet.imageResId?.let { imageRes ->
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(220.dp)
+                            .height(260.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = imageRes),
+                            contentDescription = planet.name,
+                            modifier = Modifier.fillMaxHeight(),
+                            contentScale = ContentScale.Fit
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // ---------------- PLANET NAME ----------------
+                Text(
+                    text = planet.name,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // ---------------- PLANET DESCRIPTION ----------------
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
+                    )
+                ) {
+                    Text(
+                        text = planet.description,
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
-                // --- Planet Details ---
-                Text(text = planet.name, style = MaterialTheme.typography.headlineMedium)
-                Text(text = "Distance: ${planet.distanceFromSun}")
-                Text(text = "Gravity: ${planet.gravity}")
+                Spacer(modifier = Modifier.height(20.dp))
 
-                Divider()
+                // ---------------- FACTS ----------------
+                Text(
+                    text = "Facts",
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.onBackground
+                )
 
-                Text(text = planet.description)
+                Spacer(modifier = Modifier.height(12.dp))
 
-                if (planet.funFact.isNotBlank()) {
-                    Text(
-                        text = "Fun fact: ${planet.funFact}",
-                        style = MaterialTheme.typography.bodyMedium
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)
                     )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        FactRow(title = "Distance from Sun", value = planet.distanceFromSun)
+                        FactRow(title = "Gravity", value = planet.gravity)
+                        FactRow(title = "Fun Fact", value = planet.funFact)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // ---------------- BUTTONS ----------------
+                planet.youtubeVideoId?.let {
+                    // Optional YouTube player integration placeholder
+                }
+
+                Button(
+                    onClick = { tts?.speak(planet.description, TextToSpeech.QUEUE_FLUSH, null, planet.name) },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                ) {
+                    Text("Play Narration", color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // -------------------------
-                // REPLACED OLD BUTTONS WITH NEW STYLISH BUTTONS
-                // -------------------------
-
-                PlanetButton(
-                    text = "Play Narration",
-                    icon = Icons.Default.PlayArrow,
-                    color = Color(planet.backgroundColors.first()),
+                Button(
                     onClick = {
-                        tts?.speak(
-                            planet.description,
-                            TextToSpeech.QUEUE_FLUSH,
-                            null,
-                            planet.name
-                        )
-                    }
-                )
+                        tts?.speak("Fun fact about ${planet.name}: ${planet.funFact}", TextToSpeech.QUEUE_FLUSH, null, "${planet.name}_funfact")
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                ) {
+                    Text("Play Fun Fact", color = MaterialTheme.colorScheme.onPrimary)
+                }
 
-                PlanetButton(
-                    text = "Play Fun Fact",
-                    icon = Icons.Default.Lightbulb,
-                    color = Color(planet.backgroundColors.first()),
-                    onClick = {
-                        tts?.speak(
-                            "Fun fact about ${planet.name}. ${planet.funFact}",
-                            TextToSpeech.QUEUE_FLUSH,
-                            null,
-                            "${planet.name}_fact"
-                        )
-                    }
-                )
+                Spacer(modifier = Modifier.height(12.dp))
 
-                PlanetButton(
-                    text = "Take Quiz",
-                    icon = Icons.Default.Quiz,
-                    color = Color(planet.backgroundColors.first()),
-                    onClick = { onQuizClick(planet.name) }
-                )
+                Button(
+                    onClick = { onQuizClick(planet.name) },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                ) {
+                    Text("Take Quiz", color = MaterialTheme.colorScheme.onPrimary)
+                }
 
-                // -------------------------
-                // INSERTED YOUR CODE HERE (MERGED)
-                // -------------------------
-                val highScoreFlow = vm.quizHighScoreFlow(planet.name)
-                val highScore by highScoreFlow.collectAsState(initial = 0)
-
-                Text(
-                    text = "High score: $highScore",
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
+    }
+}
+
+// ------------------------- FACT ROW -------------------------
+@Composable
+fun FactRow(title: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(title, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onBackground)
+        Text(value, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium), color = MaterialTheme.colorScheme.secondary)
+    }
+}
+
+// ------------------------- PREVIEWS -------------------------
+@Preview(showBackground = true)
+@Composable
+fun PreviewPlanetDetailLight() {
+    SolarExplorerTheme(darkTheme = false) {
+        PlanetDetailScreen(
+            planet = Planet.samplePlanet(),
+            onBack = {},
+            onQuizClick = {},
+            vm = QuizViewModel(context = LocalContext.current)
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewPlanetDetailDark() {
+    SolarExplorerTheme(darkTheme = true) {
+        PlanetDetailScreen(
+            planet = Planet.samplePlanet(),
+            onBack = {},
+            onQuizClick = {},
+            vm = QuizViewModel(context = LocalContext.current)
+        )
     }
 }

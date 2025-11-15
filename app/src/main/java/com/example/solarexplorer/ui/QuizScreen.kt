@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.example.solarexplorer.R
 import com.example.solarexplorer.data.model.QuizQuestion
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,6 +37,13 @@ fun QuizScreen(
 
     // ---------- RESULT POPUP UI ----------
     if (showResult) {
+
+        val message = when {
+            finalScore == finalTotal -> stringResource(R.string.quiz_full_marks)
+            finalScore >= finalTotal / 2 -> stringResource(R.string.quiz_good_score)
+            else -> stringResource(R.string.quiz_try_again)
+        }
+
         AlertDialog(
             onDismissRequest = {},
             confirmButton = {
@@ -42,17 +51,10 @@ fun QuizScreen(
                     showResult = false
                     onFinish(finalScore, finalTotal)
                 }) {
-                    Text("OK")
+                    Text(stringResource(R.string.ok))
                 }
             },
             title = {
-                val message =
-                    when {
-                        finalScore == finalTotal -> "🎉 Congratulations!!!"
-                        finalScore >= finalTotal / 2 -> "😄 Nice! You scored good marks!"
-                        else -> "🙂 Good Try! You can do even better!"
-                    }
-
                 Text(
                     text = message,
                     style = MaterialTheme.typography.headlineSmall,
@@ -62,7 +64,11 @@ fun QuizScreen(
             },
             text = {
                 Text(
-                    text = "Your Score: $finalScore / $finalTotal",
+                    text = stringResource(
+                        R.string.quiz_your_score,
+                        finalScore,
+                        finalTotal
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center
@@ -75,9 +81,14 @@ fun QuizScreen(
     // ---------- QUIZ UI ----------
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Quiz") }, navigationIcon = {
+            TopAppBar(title = {
+                Text(stringResource(R.string.quiz_title))
+            }, navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = stringResource(R.string.back)
+                    )
                 }
             })
         }
@@ -89,7 +100,7 @@ fun QuizScreen(
                     .padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                Text("No quiz available for this planet.")
+                Text(stringResource(R.string.no_quiz_available))
             }
             return@Scaffold
         }
@@ -105,7 +116,11 @@ fun QuizScreen(
         ) {
 
             Text(
-                text = "Question ${index + 1} of ${questions.size}",
+                text = stringResource(
+                    R.string.quiz_question_number,
+                    index + 1,
+                    questions.size
+                ),
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
@@ -167,21 +182,25 @@ fun QuizScreen(
                 OutlinedButton(onClick = {
                     selectedOption = null
                 }) {
-                    Text("Reset")
+                    Text(stringResource(R.string.reset))
                 }
 
                 Button(onClick = {
+
                     if (!answered) {
                         val chosen = selectedOption
                         if (chosen != null && chosen == q.correctAnswerIndex) {
                             score++
                         }
                         answered = true
+
                     } else {
+
                         if (index + 1 < questions.size) {
                             index++
                             selectedOption = null
                             answered = false
+
                         } else {
                             finalScore = score
                             finalTotal = questions.size
@@ -192,9 +211,9 @@ fun QuizScreen(
 
                     Text(
                         when {
-                            !answered -> "Submit"
-                            index + 1 < questions.size -> "Next"
-                            else -> "Finish"
+                            !answered -> stringResource(R.string.submit)
+                            index + 1 < questions.size -> stringResource(R.string.next)
+                            else -> stringResource(R.string.finish)
                         }
                     )
                 }
