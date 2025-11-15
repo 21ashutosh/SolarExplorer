@@ -70,15 +70,15 @@ A modern Android app built with **Jetpack Compose**, designed to teach users abo
 
 ## 📦 Project Structure
 app/
-├── data/
-│ ├── datastore/
-│ └── model/
-├── ui/
-│ ├── home/
-│ ├── detail/
-│ ├── quiz/
-│ ├── tour/
-│ └── components/
-├── utils/
-├── MainActivity.kt
+├── data/<br>
+│ ├── datastore/<br>
+│ └── model/<br>
+├── ui/<br>
+│ ├── home/<br>
+│ ├── detail/<br>
+│ ├── quiz/<br>
+│ ├── tour/<br>
+│ └── components/<br>
+├── utils/<br>
+├── MainActivity.kt<br>
 └── ...
