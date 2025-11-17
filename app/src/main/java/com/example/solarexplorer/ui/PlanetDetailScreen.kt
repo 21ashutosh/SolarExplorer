@@ -1,5 +1,6 @@
 package com.example.solarexplorer.ui
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.speech.tts.TextToSpeech
 import android.util.Log
@@ -26,9 +27,6 @@ import com.example.solarexplorer.ui.theme.SolarExplorerTheme
 import com.example.solarexplorer.ui.theme.SpaceGradientBackground
 import java.util.Locale
 
-// -------------------------
-// Planet Detail Screen
-// -------------------------
 @Composable
 fun PlanetDetailScreen(
     planet: Planet?,
@@ -73,7 +71,7 @@ fun PlanetDetailScreen(
     }
 
     // ---------------- GRADIENT COLORS ----------------
-    val colors = planet.backgroundColors.map { Color(it.toULong().toLong()) } // ensure Long -> Color
+    val colors = planet.backgroundColors.map { Color(it.toULong().toLong()) }
     val top = colors.getOrNull(0) ?: Color(0xFF0A0F1A)
     val bottom = colors.getOrNull(1) ?: Color(0xFF0F1724)
 
@@ -168,12 +166,15 @@ fun PlanetDetailScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // ---------------- BUTTONS ----------------
-                planet.youtubeVideoId?.let {
-                    // Optional YouTube player integration placeholder
-                }
-
                 Button(
-                    onClick = { tts?.speak(planet.description, TextToSpeech.QUEUE_FLUSH, null, planet.name) },
+                    onClick = {
+                        tts?.speak(
+                            planet.description,
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            planet.name
+                        )
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
                     Text("Play Narration", color = MaterialTheme.colorScheme.onPrimary)
@@ -183,7 +184,12 @@ fun PlanetDetailScreen(
 
                 Button(
                     onClick = {
-                        tts?.speak("Fun fact about ${planet.name}: ${planet.funFact}", TextToSpeech.QUEUE_FLUSH, null, "${planet.name}_funfact")
+                        tts?.speak(
+                            "Fun fact about ${planet.name}: ${planet.funFact}",
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            "${planet.name}_funfact"
+                        )
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
@@ -205,7 +211,6 @@ fun PlanetDetailScreen(
     }
 }
 
-// ------------------------- FACT ROW -------------------------
 @Composable
 fun FactRow(title: String, value: String) {
     Row(
@@ -219,7 +224,7 @@ fun FactRow(title: String, value: String) {
     }
 }
 
-// ------------------------- PREVIEWS -------------------------
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
 fun PreviewPlanetDetailLight() {
@@ -233,6 +238,7 @@ fun PreviewPlanetDetailLight() {
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewPlanetDetailDark() {

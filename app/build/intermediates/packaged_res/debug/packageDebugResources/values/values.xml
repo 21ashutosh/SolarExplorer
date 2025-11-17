@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="ic_launcher_background">#18267C</color>
+    <color name="splash_background">#C6B3F0</color>
+    <color name="splash_background_night">#695BEC</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Solar Explorer</string>
+    <string name="back">Back</string>
+    <string name="back_button">Back</string>
+    <string name="distance">Distance from Sun: %s</string>
+    <string name="finish">Finish</string>
+    <string name="fun_fact_full">Fun Fact: %s</string>
+    <string name="gcm_defaultSenderId" translatable="false">813587910822</string>
+    <string name="google_api_key" translatable="false">AIzaSyDLaCRfvfybwclmlNU5BpVDrg5yLVzP1LE</string>
+    <string name="google_app_id" translatable="false">1:813587910822:android:4c8026e604b25a511a2467</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDLaCRfvfybwclmlNU5BpVDrg5yLVzP1LE</string>
+    <string name="google_storage_bucket" translatable="false">solar-explorer-63d69.firebasestorage.app</string>
+    <string name="gravity">Gravity: %s</string>
+    <string name="high_score">High Score: %d</string>
+    <string name="next">Next</string>
+    <string name="no_planets_found">No planets found.</string>
+    <string name="no_quiz_available">No quiz available for this planet.</string>
+    <string name="now_showing">Now Showing</string>
+    <string name="ok">OK</string>
+    <string name="planet_not_found">Planet not found</string>
+    <string name="planets_title">Planets</string>
+    <string name="play_fun_fact">Play Fun Fact</string>
+    <string name="play_narration">Play Narration</string>
+    <string name="project_id" translatable="false">solar-explorer-63d69</string>
+    <string name="quiz_full_marks">🎉 Congratulations!!!</string>
+    <string name="quiz_good_score">😄 Nice! You scored good marks!</string>
+    <string name="quiz_question_number">Question %1$d of %2$d</string>
+    <string name="quiz_title">Quiz</string>
+    <string name="quiz_try_again">🙂 Good Try! You can do even better!</string>
+    <string name="quiz_your_score">Your Score: %1$d / %2$d</string>
+    <string name="reset">Reset</string>
+    <string name="solar_tour_title">Solar System Tour</string>
+    <string name="start_tour">Start Tour</string>
+    <string name="stop_tour">Stop Tour</string>
+    <string name="submit">Submit</string>
+    <string name="take_quiz">Take Quiz</string>
+    <string name="tour_description">Welcome to the Solar System tour! Press "Start Tour" to begin an automated journey through our cosmic neighborhood.</string>
+    <string name="tour_stopped">Tour stopped</string>
+    <string name="watch_and_learn">Watch and Learn</string>
+    <style name="Base.Theme.SolarExplorer" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.SolarExplorer" parent="Base.Theme.SolarExplorer"/>
+    <style name="Theme.SolarExplorer.Splash" parent="Theme.SplashScreen">
+        
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+
+        
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        
+        <item name="windowSplashScreenAnimationDuration">300</item>
+
+        
+        <item name="postSplashScreenTheme">@style/Theme.SolarExplorer</item>
+    </style>
+</resources>

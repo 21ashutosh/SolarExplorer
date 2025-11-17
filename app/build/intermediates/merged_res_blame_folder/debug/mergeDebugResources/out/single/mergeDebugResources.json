@@ -1,0 +1,154 @@
+[
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_uranus.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/uranus.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_venus1.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/venus1.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_ic_planet_placeholder.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/ic_planet_placeholder.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_neptune.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/neptune.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_jupiter.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/jupiter.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_ic_visibility.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/ic_visibility.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_saturn.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/saturn.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/raw_solar_system.json.flat",
+        "source": "com.example.solarexplorer.app-main-74:/raw/solar_system.json"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_venus.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/venus.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_mercury.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/mercury.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/xml_backup_rules.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/layout_activity_main.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_mercury1.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/mercury1.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_mars.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/mars.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/raw_orbit_ring.json.flat",
+        "source": "com.example.solarexplorer.app-main-74:/raw/orbit_ring.json"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_galaxy.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/galaxy.png"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_ic_visibility_off.xml.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/ic_visibility_off.xml"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.solarexplorer.app-main-74:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.solarexplorer.app-debug-72:/drawable_earth.png.flat",
+        "source": "com.example.solarexplorer.app-main-74:/drawable/earth.png"
+    }
+]

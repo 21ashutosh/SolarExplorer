@@ -9,15 +9,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.solarexplorer.R
 
-@OptIn(ExperimentalMaterial3Api::class) // Add this annotation
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ThemedAppBar(titleText: String, onBack: () -> Unit) {
+fun ThemedAppBar(
+    titleText: String,
+    onBack: () -> Unit,
+    rightContent: (@Composable () -> Unit)? = null // ⭐ Optional slot for right content
+) {
     TopAppBar(
         title = {
             Text(
-                text = stringResource(id = R.string.app_name),
+                text = titleText, // use the passed titleText instead of always stringResource(R.string.app_name)
                 style = MaterialTheme.typography.headlineSmall
             )
+        },
+        actions = {
+            rightContent?.invoke() // invoke only if provided
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,

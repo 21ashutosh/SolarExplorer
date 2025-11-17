@@ -2,11 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.example.solarexplorer"
-    compileSdk = 36 // 36 not available yet in stable version; 34 is safer
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.solarexplorer"
@@ -14,7 +15,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -48,50 +48,51 @@ android {
 
 dependencies {
     // Android core
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+
+    // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Jetpack Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    //implementation(libs.androidx.compose.material)
-    implementation("androidx.compose.material3:material3") // ADD THIS LINE
-
+    implementation(platform("androidx.compose:compose-bom:2025.11.00"))
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.animation:animation:1.5.3")
 
     // Navigation in Compose
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // ViewModel + Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2") // lifecycleScope
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2") // viewModel in Compose
 
-    // Lottie for animations
-    implementation("com.airbnb.android:lottie-compose:6.1.0")
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation(libs.ads.mobile.sdk)
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
+    // Lottie
+    implementation("com.airbnb.android:lottie-compose:6.6.10")
+
+    // Coil for image loading
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+    // YouTube Player
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 
     // Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    // Lottie for Compose (animation)
-    implementation("com.airbnb.android:lottie-compose:6.6.10")
-// (from Maven Central). :contentReference[oaicite:0]{index=0}
-// Coil for image loading in Compose (optional, useful for remote images)
-    implementation("io.coil-kt:coil-compose:2.7.0")
-// Composer-friendly Coil. :contentReference[oaicite:1]{index=1}
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
-    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
-    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
-
-
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

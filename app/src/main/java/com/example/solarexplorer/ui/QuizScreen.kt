@@ -1,6 +1,8 @@
 package com.example.solarexplorer.ui
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -30,7 +32,6 @@ fun QuizScreen(
     var selectedOption by remember { mutableStateOf<Int?>(null) }
     var answered by remember { mutableStateOf(false) }
 
-    // RESULT POPUP STATES
     var showResult by remember { mutableStateOf(false) }
     var finalScore by remember { mutableStateOf(0) }
     var finalTotal by remember { mutableStateOf(0) }
@@ -132,16 +133,19 @@ fun QuizScreen(
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
+                val interaction = remember { MutableInteractionSource() }
+
                 q.options.forEachIndexed { i, option ->
 
                     val isCorrect = i == q.correctAnswerIndex
                     val isSelected = selectedOption == i
 
+                    // ---- FIXED COLOR LOGIC ----
                     val bg = when {
-                        isSelected && isCorrect -> Color(0xFFAAF27A)       // green
-                        answered && isSelected && !isCorrect -> Color(0xFFF28B82) // red
-                        answered && isCorrect -> Color(0xFFAAF27A)        // show correct
-                        else -> MaterialTheme.colorScheme.surfaceVariant
+                        answered && isSelected && isCorrect -> Color(0xFFAAF27A)      // green
+                        answered && isSelected && !isCorrect -> Color(0xFFF28B82)    // red
+                        answered && isCorrect -> Color(0xFFAAF27A)                   // show correct
+                        else -> MaterialTheme.colorScheme.surfaceVariant            // normal before submit
                     }
 
                     Card(
@@ -149,7 +153,11 @@ fun QuizScreen(
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable(enabled = !answered) {
+                            .clickable(
+                                enabled = !answered,
+                                interactionSource = interaction,
+                                indication = LocalIndication.current
+                            ) {
                                 selectedOption = i
                             }
                     ) {

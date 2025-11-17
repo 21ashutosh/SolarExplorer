@@ -50,11 +50,15 @@ import androidx.compose.material3.CardDefaults
 import com.example.solarexplorer.ui.theme.SolarExplorerTheme
 import com.example.solarexplorer.ui.components.ThemedAppBar
 
+// ⭐ Firebase imports
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(planets: List<Planet>, onPlanetClick: (String) -> Unit) {
+fun HomeScreen(planets: List<Planet>,
+               onPlanetClick: ((String) -> Unit)) {
 
     val context = LocalContext.current
     val ttsHelper = remember { TTSHelper(context) }
@@ -67,6 +71,27 @@ fun HomeScreen(planets: List<Planet>, onPlanetClick: (String) -> Unit) {
     var tourJob by remember { mutableStateOf<Job?>(null) }
     var isTouring by remember { mutableStateOf(false) }
 
+    // ⭐ Username State
+    var userName by remember { mutableStateOf("Explorer") }
+
+    // ⭐ Fetch from Firebase Firestore
+    DisposableEffect(Unit) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            FirebaseFirestore.getInstance()
+                .collection("users")    // Your collection
+                .document(uid)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val firstName = doc.getString("firstName")
+                    if (!firstName.isNullOrEmpty()) {
+                        userName = firstName
+                    }
+                }
+        }
+        onDispose {}
+    }
+
     // ⭐ Wrap whole screen with your theme
     SolarExplorerTheme {
 
@@ -74,7 +99,26 @@ fun HomeScreen(planets: List<Planet>, onPlanetClick: (String) -> Unit) {
             topBar = {
                 ThemedAppBar(
                     titleText = stringResource(id = R.string.app_name),
-                    onBack = {}
+                    onBack = {},
+                    rightContent = {
+                        // ⭐ Animated Hello Message
+                        val infiniteTransition = rememberInfiniteTransition()
+                        val alphaAnim by infiniteTransition.animateFloat(
+                            initialValue = 0.3f,
+                            targetValue = 1f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(1500, easing = LinearEasing),
+                                repeatMode = RepeatMode.Reverse
+                            )
+                        )
+
+                        Text(
+                            text = "Hello, $userName 👋",
+                            modifier = Modifier.padding(end = 12.dp),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = alphaAnim),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
                 )
             }
         ) { padding ->

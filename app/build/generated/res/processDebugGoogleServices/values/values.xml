@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">813587910822</string>
+    <string name="google_api_key" translatable="false">AIzaSyDLaCRfvfybwclmlNU5BpVDrg5yLVzP1LE</string>
+    <string name="google_app_id" translatable="false">1:813587910822:android:4c8026e604b25a511a2467</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDLaCRfvfybwclmlNU5BpVDrg5yLVzP1LE</string>
+    <string name="google_storage_bucket" translatable="false">solar-explorer-63d69.firebasestorage.app</string>
+    <string name="project_id" translatable="false">solar-explorer-63d69</string>
+</resources>

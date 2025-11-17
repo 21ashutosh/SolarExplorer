@@ -23,3 +23,8 @@ val SpaceError = Color(0xFFF44336)
 // UTILITY
 val SpaceMuted = Color(0xFF8A97B3)
 val SpaceDivider = Color(0x1FFFFFFF)
+val SpaceBlue = Color(0xFF0B3D91)
+val SpaceBlack = Color(0xFF0A0F1A)
+val SpaceCard = Color(0xFF0F1724)
+val SpaceYellow = Color(0xFFFFD54F)
+
