@@ -26,6 +26,7 @@ import com.example.solarexplorer.ui.theme.SolarExplorerTheme
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.navigation.NavBackStackEntry
 
 class MainActivity : ComponentActivity() {
 
