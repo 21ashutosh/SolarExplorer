@@ -133,9 +133,9 @@ fun QuizScreen(
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
-                val interaction = remember { MutableInteractionSource() }
-
                 q.options.forEachIndexed { i, option ->
+
+                    val interaction = remember { MutableInteractionSource() }   // ← FIXED (each option now separate)
 
                     val isCorrect = i == q.correctAnswerIndex
                     val isSelected = selectedOption == i
@@ -145,7 +145,7 @@ fun QuizScreen(
                         answered && isSelected && isCorrect -> Color(0xFFAAF27A)      // green
                         answered && isSelected && !isCorrect -> Color(0xFFF28B82)    // red
                         answered && isCorrect -> Color(0xFFAAF27A)                   // show correct
-                        else -> MaterialTheme.colorScheme.surfaceVariant            // normal before submit
+                        else -> MaterialTheme.colorScheme.surfaceVariant            // normal
                     }
 
                     Card(
